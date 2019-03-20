@@ -1,13 +1,13 @@
 Package: arcRest
 Title: An Interface to the Ersi Arc Collector REST Service
 Version: 0.0.0.9000
-Authors@R: 
-    person(given = "First",
-           family = "Last",
-           role = c("aut", "cre"),
-           email = "first.last@example.com")
-Description: What the package does (one paragraph).
-License: What license it uses
+Authors@R: person("Charles", "Scheid", email = "chharleshscheid@gmail.com", role = c("aut", "cre"))
+URL: https://github.com/But-I-Digress/arcRest
+BugReports: https://github.com/But-I-Digress/arcRest/issues
+Description: This package will provide an interface for the REST service associated with the Ersi Arc Collector REST service. 
+Depends: R (>= 3.5.1)
+Imports: httr (>= 1.4.0), jsonlite (>= 1.6)
+License: Artistic License 2.0
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
