@@ -5,12 +5,24 @@ decode <- function (v, d) {
 	v
 }
 
-
+#' @describeIn get_layer Get information about a layer.
+#'
 #'@export
 get_layer_info <- function (rest, layer_no) rest_GET(paste0(rest$url, "/FeatureServer/", layer_no), rest$usr, rest$pwd)
 
+#' @title Get Layer
+#'
+#' @description Get a Layer from a REST Service
+#'
+#' @param rest A \code{\link{rest_service}} object.
+#' @param layer_no Scalar, the number of the layer, 0 to n - 1.
+#' 
+#' @return \code{get_layer_info} returns a \code{rest_response} object. \code{get_layer}, the attribute table as a data frame.
+#'
 #'@export
 get_layer <- function (rest, layer_no) {
+
+	layer_no <- as.character(get_layer[[1]])
 	
 	info <- get_layer_info(rest, layer_no)
 	info <- info$content
