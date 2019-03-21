@@ -38,7 +38,7 @@ get_layer <- function (rest, layer_no) {
 		dataFormat = "json"
 	)
 	
-	res <- rest_POST(url, rest$usr,rest$pwd, body = body)
+	res <- rest_POST(url, rest$usr,rest$pwd, params = body)
 	
 	print(res)
 	
