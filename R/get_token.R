@@ -10,8 +10,8 @@
 #' @examples 
 #' \dontrun{get_token("user", "password")}
 #'
-#' @export 
-get_token <- function(usr, pwd) {
+#'@export 
+get_token <- function (usr, pwd) {
 
 	parsed <- get0(usr, envir = arcRest)
 	if (is.null(parsed) || parsed$expires < Sys.time()) {	
@@ -40,4 +40,3 @@ get_token <- function(usr, pwd) {
 	parsed$token
 	
 }
-

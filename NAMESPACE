@@ -2,9 +2,11 @@
 
 S3method(print,rest_response)
 S3method(print,rest_service)
-export(get_layer)
+export(extract_layer)
 export(get_layer_info)
+export(get_layers)
 export(get_token)
 export(rest_GET)
 export(rest_POST)
+export(rest_download)
 export(rest_service)

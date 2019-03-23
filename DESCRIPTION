@@ -1,6 +1,6 @@
 Package: arcRest
 Title: An Interface to the Ersi Arc Collector REST Service
-Version: 0.0.0.9000
+Version: 0.0.0.9001
 Authors@R: person("Charles", "Scheid", email = "chharleshscheid@gmail.com", role = c("aut", "cre"))
 URL: https://github.com/But-I-Digress/arcRest
 BugReports: https://github.com/But-I-Digress/arcRest/issues

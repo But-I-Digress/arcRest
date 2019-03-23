@@ -1,4 +1,4 @@
-rest_response <- function (url, usr, pwd, params = list(), post = FALSE) {
+rest_response <- function (usr, pwd, url, params = list(), post = FALSE) {
 	ua <- httr::user_agent("https://github.com/But-I-Digress/arcRest")
 	
 	params$token <- get_token(usr, pwd)
@@ -14,7 +14,8 @@ rest_response <- function (url, usr, pwd, params = list(), post = FALSE) {
 	
 	structure(
 		list(
-			url = url,
+			rest = NULL,
+			path = url,
 			params = params,
 			content = parsed
 		),
@@ -29,46 +30,58 @@ rest_response <- function (url, usr, pwd, params = list(), post = FALSE) {
 #' @section Note:
 #' These functions negotiate the authentication token, caching it in memory and fetching a new one when when necessary.
 #' 
-#' @param url The url of the resource being requested.
+#' @param rest A rest_service object returned by \code{\link{rest_service}}.
+#' @param url The path of the resource being requested, relative to the URL of the rest service.
 #' @param params A list of key value pairs to be sent with the request.
-#' @inheritParams rest_service
 #'
 #' @return A list of class \code{rest_response} with the members:
 #' 
 #' \describe{
-#'	\item{url}{The URL of the request.}
+#'	\item{rest}{The \code{rest_service} object associated with the request.}
+#'	\item{path}{The path of the request.}
 #'	\item{params}{The key value pairs passed in the request.}
 #'	\item{content}{The parsed content returned by the REST service. Or in the case of \code{rest_download}, the response form \code{file.info} but with the file path appended.}
 #' }
 #'
 #' @export
-rest_GET <- function (url, usr, pwd, params = list()) rest_response(url, usr, pwd, params = list(), post = FALSE)
+rest_GET <- function (rest, path, params = list()) {	
+	url <- paste(rest$url, path, sep = "/")
+	res <- rest_response(rest$usr, rest$pwd, url, params, post = FALSE)
+	res$rest <- rest
+	res
+}
 
 #' @describeIn rest_GET Send an HTTP put request to a REST service.
 #'
 #' @export
-rest_POST <- function (url, usr, pwd, params = list()) rest_response(url, usr, pwd, params = list(), post = TRUE)
+rest_POST <- function (rest, path, params = list()) {
+	url <- paste(rest$url, path, sep = "/")
+	res <- rest_response(rest$usr, rest$pwd, url, params, post = TRUE)
+	res$rest <- rest
+	res
+}
 
 #' @describeIn rest_GET Send an HTTP put request to a REST service.
 #"
 #' @inheritParams utils::download.file
 #'
 #' @export
-rest_download <- function (url, usr, pwd, destfile, params = list()) {
-
+rest_download <- function (rest, path = NULL, url = NULL, destfile, params = list()) {
+	if (!missing(path)) url <- paste(rest$url, path, sep = "/")
 	url <- httr::parse_url(url)
 	url$query <- params
-	url$query$token <- get_token(usr, pwd)
+	url$query$token <- get_token(rest$usr, rest$pwd)
 	url <- httr::build_url(url)
 
-	if (download.file(url, destfile) != 0) stop("Error downloading ", url, call. = FALSE)
+	if (download.file(url, destfile, mode="wb") != 0) stop("Error downloading ", url, call. = FALSE)
 	
 	info <- file.info(destfile)
 	info$path <- destfile
 	
 	structure(
 		list(
-			url = url,
+			rest = rest,
+			path = path,
 			params = params,
 			content = info[1, , drop = TRUE]
 		),
@@ -87,7 +100,7 @@ rest_download <- function (url, usr, pwd, destfile, params = list()) {
 #'
 #' @export
 print.rest_response <- function (x, ...) {
-	cat("<Arc REST ", x$url, ">\n", sep = "")
+	cat("<Arc REST ", x$path, ">\n", sep = "")
 	str(x$content)
 	invisible(x)
 }

@@ -3,31 +3,34 @@
 \name{rest_GET}
 \alias{rest_GET}
 \alias{rest_POST}
+\alias{rest_download}
 \title{REST Get}
 \usage{
-rest_GET(url, usr, pwd, query = list())
+rest_GET(rest, path, params = list())
 
-rest_POST(url, usr, pwd, query = list(), body = list())
+rest_POST(rest, path, params = list())
+
+rest_download(rest, path = NULL, url = NULL, destfile,
+  params = list())
 }
 \arguments{
-\item{url}{The url of the resource being requested.}
+\item{rest}{A rest_service object returned by \code{\link{rest_service}}.}
 
-\item{usr}{Character, the user name.}
+\item{params}{A list of key value pairs to be sent with the request.}
 
-\item{pwd}{Character, the password.}
+\item{url}{The path of the resource being requested, relative to the URL of the rest service.}
 
-\item{query}{A list of key value pairs to be sent with URL of the request.}
-
-\item{body}{A list of key value pairs to be sent with HTTP request headers.}
+\item{destfile}{A character string with the name where the downloaded
+    file is saved.  Tilde-expansion is performed.}
 }
 \value{
 A list of class \code{rest_response} with the members:
 
 \describe{
-\item{url}{The URL of the request.}
-\item{query}{The key value pairs passed in the URL.}
-\item{body}{The key value pairs passed in the request headers.}
-\item{content}{The parsed content returned by the REST service.}
+\item{rest}{The \code{rest_service} object associated with the request.}
+\item{path}{The path of the request.}
+\item{params}{The key value pairs passed in the request.}
+\item{content}{The parsed content returned by the REST service. Or in the case of \code{rest_download}, the response form \code{file.info} but with the file path appended.}
 }
 }
 \description{
@@ -36,6 +39,8 @@ Send an HTTP request to a REST service.
 \section{Functions}{
 \itemize{
 \item \code{rest_POST}: Send an HTTP put request to a REST service.
+
+\item \code{rest_download}: Send an HTTP put request to a REST service.
 }}
 
 \section{Note}{

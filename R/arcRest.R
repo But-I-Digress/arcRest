@@ -22,7 +22,7 @@ rest_service <- function (url, usr, pwd) {
 	url$path <- paste(strsplit(url$path, "/", fixed = TRUE)[[1]][1:5], collapse = "/")
 	url <- httr::build_url(url)
 	
-	res <- rest_GET(paste0(url, "/FeatureServer"), usr, pwd)
+	res <- rest_response(usr, pwd, paste0(url, "/FeatureServer"))
 	
 	structure(
 		list(
