@@ -4,7 +4,8 @@
 \alias{extract_layer}
 \title{Extract Layer}
 \usage{
-extract_layer(res, layer_no = 0, folder_path = NULL)
+extract_layer(res, layer_no = 0, folder_path = NULL,
+  return_geometry = FALSE)
 }
 \arguments{
 \item{res}{A rest_response object returned by \code{\link{get_layers}}.}
@@ -12,9 +13,11 @@ extract_layer(res, layer_no = 0, folder_path = NULL)
 \item{layer_no}{A single integer, 0 to n - 1, describing the layer to extract.}
 
 \item{folder_path}{An optional path to a directory. If it exists, any attachments will be downloaded there.}
+
+\item{return_geometry}{Logical, should the geometry be returned.}
 }
 \value{
-A data frame. If there were attachments, the URLs for each record will be aggregated in to a list and then added to the data frame as an ``url'' field. If the \code{folder_path} was specified, then instead, the paths of the attachments will be added as a ``path'' field.
+A data frame or an Simple Feature (SF) object if the geometry is returned.. If there were attachments, the URLs for each record will be aggregated in to a list and then added to the data frame as an ``url'' field. If the \code{folder_path} was specified, then instead, the paths of the attachments will be added as a ``path'' field.
 }
 \description{
 Extracts a data frame from the layers returned by \code{\link{get_layers}}. Optionally, downloads the layer's attachments.
