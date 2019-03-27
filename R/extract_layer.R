@@ -1,3 +1,10 @@
+	
+date <- function () {
+	date <- integer()
+	class(date) <- "POSIXct"
+	date
+}
+
 #' @title Extract Layer
 #'
 #' @description Extracts a data frame from the layers returned by \code{\link{get_layers}}. Optionally, downloads the layer's attachments.
@@ -12,6 +19,19 @@
 #' @export
 extract_layer <- function (res, layer_no = 0, folder_path = NULL, return_geometry = FALSE) {
 	features <- res$content$layers$features[[layer_no + 1]]$attributes
+	
+	if(length(res$content$layers$features[[layer_no + 1]]) == 0)  {
+		get_layer_info(layers$rest, layer_no) -> info
+		info$content$fields -> fields
+		
+		d <- data.frame()
+		
+		types <- list(esriFieldTypeSmallInteger = integer(), esriFieldTypeInteger = integer(), esriFieldTypeSingle = numeric(), esriFieldTypeDouble = numeric(), esriFieldTypeString = character(), esriFieldTypeDate = date(), esriFieldTypeOID = integer(), esriFieldTypeGUID = character(), esriFieldTypeGlobalID = character())
+		
+		for (i in 1:nrow(fields)) d[fields[i, "alias"]] <- if(is.null(unlist(types[fields[i, "type"]]))) logical() else types[fields[i, "type"]]
+		
+		return(d)	
+	}
 
 	if (!is.null(attachments <- res$content$layers$attachments[[layer_no +  1]])) {              
 		if (missing(folder_path)) {

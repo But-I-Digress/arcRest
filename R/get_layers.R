@@ -16,6 +16,8 @@ normalize_layer <- function (res, layer) {
 	info <- get_layer_info(res$rest, layer)
 	fields <- info$content$fields
 	layer <- layer + 1
+	
+	if(length(res$content$layers$features[[layer]]) == 0) return(res)
 		
 	# resolve coded values		
 	if (class(fields$domain) == "data.frame") for (i in which(fields$domain$type == "codedValue")) res$content$layers$features[[layer]]$attributes[, i] <- decode(res$content$layers$features[[layer]]$attributes[, i, drop = TRUE], fields$domain$codedValues[i][[1]])
