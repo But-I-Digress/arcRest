@@ -32,7 +32,7 @@ normalize_layer <- function (res, layer) {
 	res	
 }
 
-#' @describeIn get_layer Get information about a layer.
+#' @describeIn get_layers Get information about a layer.
 #'
 #'@export
 get_layer_info <- function (rest, layer_no) rest_GET(rest, paste0("FeatureServer/", layer_no))
