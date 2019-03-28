@@ -4,7 +4,7 @@
 \alias{rest_service}
 \title{Create a Rest Service object.}
 \usage{
-rest_service(url, usr, pwd)
+rest_service(url, usr, pwd, params = list())
 }
 \arguments{
 \item{url}{The URL of the service.}

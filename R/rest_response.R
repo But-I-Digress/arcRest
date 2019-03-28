@@ -1,8 +1,5 @@
-rest_response <- function (usr, pwd, url, params = list(), post = FALSE) {
+rest_response <- function (url, params = list(), post = FALSE) {
 	ua <- httr::user_agent("https://github.com/But-I-Digress/arcRest")
-	
-	params$token <- get_token(usr, pwd)
-	params$f <- "pjson"
 	
 	res <- if (post) httr::POST(url, body = params, ua) else httr::GET(url, query = params, ua)
 	if (httr::http_error(res)) stop(sprintf("HTTP error requesting data, %s.\n%s", httr::status_code(res), url), call. = FALSE)
@@ -46,7 +43,11 @@ rest_response <- function (usr, pwd, url, params = list(), post = FALSE) {
 #' @export
 rest_GET <- function (rest, path, params = list()) {	
 	url <- paste(rest$url, path, sep = "/")
-	res <- rest_response(rest$usr, rest$pwd, url, params, post = FALSE)
+	
+	params$token <- get_token(rest$usr, rest$pwd)
+	params$f <- "pjson"
+	
+	res <- rest_response(url, params, post = FALSE)
 	res$rest <- rest
 	res
 }
@@ -56,7 +57,11 @@ rest_GET <- function (rest, path, params = list()) {
 #' @export
 rest_POST <- function (rest, path, params = list()) {
 	url <- paste(rest$url, path, sep = "/")
-	res <- rest_response(rest$usr, rest$pwd, url, params, post = TRUE)
+	
+	params$token <- get_token(rest$usr, rest$pwd)
+	params$f <- "pjson"
+	
+	res <- rest_response(url, params, post = TRUE)
 	res$rest <- rest
 	res
 }

@@ -16,13 +16,16 @@
 #' }
 #'
 #'@export
-rest_service <- function (url, usr, pwd) {	
+rest_service <- function (url, usr, pwd, params = list()) {	
 
 	url <- httr::parse_url(url)
 	url$path <- paste(strsplit(url$path, "/", fixed = TRUE)[[1]][1:5], collapse = "/")
 	url <- httr::build_url(url)
 	
-	res <- rest_response(usr, pwd, paste0(url, "/FeatureServer"))
+	params$token <- get_token(usr, pwd)
+	params$f <- "pjson"
+	
+	res <- rest_response(paste0(url, "/FeatureServer"), params)
 	
 	structure(
 		list(
