@@ -33,10 +33,7 @@ extract_layer <- function (res, layer_no = 0, folder_path = NULL, return_geometr
 		return(d)	
 	}
 
-	if (return_geometry) if (!is.null(geometry <- res$content$layers$features[[layer_no +  1]]$geometry)) {
-		features <- cbind(features, geometry)
-		features <- sf::st_as_sf(features, coords = c("x", "y"), crs = 4326)
-	}
+	if (return_geometry) if (!is.null(geometry <- res$content$layers$features[[layer_no +  1]]$geometry)) features <- cbind(features, geometry)
 
 	if (!is.null(attachments <- res$content$layers$attachments[[layer_no +  1]])) {              
 		if (missing(folder_path)) {
@@ -48,6 +45,8 @@ extract_layer <- function (res, layer_no = 0, folder_path = NULL, return_geometr
 		}
 		features <- merge(features, attachments, by.x = "GlobalID", by.y = "parentGlobalId", all = TRUE)
 	}
+	
+	if (return_geometry && !is.null(geometry)) features <- sf::st_as_sf(features, coords = c("x", "y"), crs = 4326)
 
 	features
 }
