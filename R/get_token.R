@@ -12,7 +12,7 @@
 #'
 #'@export 
 get_token <- function (usr, pwd) {
-
+	if(is.null(usr)) stop("A username is required.", call. = FALSE)
 	parsed <- get0(usr, envir = arcRest)
 	if (is.null(parsed) || parsed$expires < Sys.time()) {	
 		url <- "https://www.arcgis.com/sharing/rest/generateToken"

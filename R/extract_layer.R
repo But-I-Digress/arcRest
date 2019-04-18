@@ -33,6 +33,8 @@ extract_layer <- function (res, layer_no = 0, folder_path = NULL, return_geometr
 		return(d)	
 	}
 
+	# merge re-orders the features, but also changes rownames with an SF object. 
+	
 	if (return_geometry) if (!is.null(geometry <- res$content$layers$features[[layer_no +  1]]$geometry)) features <- cbind(features, geometry)
 
 	if (!is.null(attachments <- res$content$layers$attachments[[layer_no +  1]])) {              
