@@ -2,14 +2,22 @@
 % Please edit documentation in R/get_token.R
 \name{get_token}
 \alias{get_token}
+\alias{get_token.character}
+\alias{get_token.rest_service}
 \title{Get Token}
 \usage{
-get_token(usr, pwd)
+get_token(x, ...)
+
+\method{get_token}{character}(usr, pwd)
+
+\method{get_token}{rest_service}(res)
 }
 \arguments{
 \item{usr}{Character, the user name.}
 
 \item{pwd}{Character, the password.}
+
+\item{res}{A rest_service object.}
 }
 \value{
 Character, the value of the token.
@@ -17,6 +25,13 @@ Character, the value of the token.
 \description{
 Get an authentication token, reusing the last one if it hasn't expired.
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{character}: Get a token from a username and password.
+
+\item \code{rest_service}: Get a token from a rest_service object.
+}}
+
 \examples{
 \dontrun{get_token("user", "password")}
 

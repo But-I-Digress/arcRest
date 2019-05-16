@@ -12,7 +12,11 @@ get_layers(rest, layers = all_layers(rest))
 \arguments{
 \item{rest}{A \code{\link{rest_service}} object.}
 
+\item{layer_no}{An integer, the number of the layer to get information about.}
+
 \item{layers}{A character vector, the numbers of the layers, 0 to n - 1. Defaults to all of them.}
+
+\item{rest}{A \code{\link{rest_service}} object.}
 }
 \value{
 A \code{rest_response} object with the content normalized.

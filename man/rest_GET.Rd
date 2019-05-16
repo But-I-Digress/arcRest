@@ -16,12 +16,11 @@ rest_download(rest, path = NULL, url = NULL, destfile,
 \arguments{
 \item{rest}{A rest_service object returned by \code{\link{rest_service}}.}
 
+\item{path}{The path of the resource being requested, relative to the URL of the rest service.}
+
 \item{params}{A list of key value pairs to be sent with the request.}
 
-\item{url}{The path of the resource being requested, relative to the URL of the rest service.}
-
-\item{destfile}{A character string with the name where the downloaded
-    file is saved.  Tilde-expansion is performed.}
+\item{url}{The full URL of the file being requested, absent of the query part.}
 }
 \value{
 A list of class \code{rest_response} with the members:

@@ -28,7 +28,7 @@ rest_response <- function (url, params = list(), post = FALSE) {
 #' These functions negotiate the authentication token, caching it in memory and fetching a new one when when necessary.
 #' 
 #' @param rest A rest_service object returned by \code{\link{rest_service}}.
-#' @param url The path of the resource being requested, relative to the URL of the rest service.
+#' @param path The path of the resource being requested, relative to the URL of the rest service.
 #' @param params A list of key value pairs to be sent with the request.
 #'
 #' @return A list of class \code{rest_response} with the members:
@@ -68,7 +68,7 @@ rest_POST <- function (rest, path, params = list()) {
 
 #' @describeIn rest_GET Send an HTTP put request to a REST service.
 #"
-#' @inheritParams utils::download.file
+#' @param url The full URL of the file being requested, absent of the query part. 
 #'
 #' @export
 rest_download <- function (rest, path = NULL, url = NULL, destfile, params = list()) {
