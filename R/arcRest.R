@@ -27,7 +27,7 @@ rest_service <- function (url, usr = NULL, pwd = NULL, params = list()) {
 	
 	out <- list(url = url, usr = usr, pwd = pwd)
 	
-	params$token <- get_token(usr, pwd)
+	if (!is.null(usr)) params$token <- get_token(usr, pwd)
 	params$f <- "pjson"
 	
 	res <- rest_response(paste0(url, "/.."), params)

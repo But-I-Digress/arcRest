@@ -44,7 +44,7 @@ rest_response <- function (url, params = list(), post = FALSE) {
 rest_GET <- function (rest, path, params = list()) {	
 	url <- paste(rest$url, path, sep = "/")
 	
-	params$token <- get_token(rest$usr, rest$pwd)
+	if (!is.null(rest$usr)) params$token <- get_token(rest$usr, rest$pwd)
 	params$f <- "pjson"
 	
 	res <- rest_response(url, params, post = FALSE)
@@ -58,7 +58,7 @@ rest_GET <- function (rest, path, params = list()) {
 rest_POST <- function (rest, path, params = list()) {
 	url <- paste(rest$url, path, sep = "/")
 	
-	params$token <- get_token(rest$usr, rest$pwd)
+	if (!is.null(rest$usr)) params$token <- get_token(rest$usr, rest$pwd)
 	params$f <- "pjson"
 	
 	res <- rest_response(url, params, post = TRUE)
@@ -75,7 +75,7 @@ rest_download <- function (rest, path = NULL, url = NULL, destfile, params = lis
 	if (!missing(path)) url <- paste(rest$url, path, sep = "/")
 	url <- httr::parse_url(url)
 	url$query <- params
-	url$query$token <- get_token(rest$usr, rest$pwd)
+	if (!is.null(rest$usr)) url$query$token <- get_token(rest$usr, rest$pwd)
 	url <- httr::build_url(url)
 
 	if (download.file(url, destfile, mode="wb") != 0) stop("Error downloading ", url, call. = FALSE)
