@@ -35,6 +35,7 @@ rest_service <- function (url, usr = NULL, pwd = NULL, params = list()) {
 	
 	services <- res$content$services
 	services <- services[services$name == name, ]
+	if (is.null(services$url)) services$url <- paste(url, services$type, sep = "/")
 	
 	for (i in 1:nrow(services)) {
 		l <- services[i, , drop=TRUE]
