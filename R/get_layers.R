@@ -2,8 +2,8 @@
 
 all_layers <- function (rest) {
 	n <- -1
-	if (!is.null(rest$content$layers)) n <- n + nrow(rest$content$layers)
-	if (!is.null(rest$content$tables)) n <- n + nrow(rest$content$tables)
+	if (!is.null(rest$FeatureServer$layers)) n <- n + nrow(rest$FeatureServer$layers)
+	if (!is.null(rest$FeatureServer$tables)) n <- n + nrow(rest$FeatureServer$tables)
 	0:n
 }
 

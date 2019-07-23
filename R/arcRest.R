@@ -3,8 +3,9 @@
 #" @description Creates an Rest Service object that contains the connection details and the returned description of the service.
 #'
 #' @param url The URL of the service.
-#' @param usr Character, the user name.
-#' @param pwd Character, the password.
+#' @param usr Character, optional, the user name.
+#' @param pwd Character, optional, the password.
+#' @param params List, optional, named paramaters to pass to the service.
 #'
 #' @return A list of class \code{rest_service} with the members:
 #' 
@@ -16,26 +17,31 @@
 #' }
 #'
 #'@export
-rest_service <- function (url, usr, pwd, params = list()) {	
+rest_service <- function (url, usr = NULL, pwd = NULL, params = list()) {	
 
 	url <- httr::parse_url(url)
-	url$path <- paste(strsplit(url$path, "/", fixed = TRUE)[[1]][1:5], collapse = "/")
+	url$path <- strsplit(url$path, "/", fixed = TRUE)[[1]][1:5]
+	name <- url$path[5]
+	url$path <- paste(url$path, collapse = "/")
 	url <- httr::build_url(url)
+	
+	out <- list(url = url, usr = usr, pwd = pwd)
 	
 	params$token <- get_token(usr, pwd)
 	params$f <- "pjson"
 	
-	res <- rest_response(paste0(url, "/FeatureServer"), params)
+	res <- rest_response(paste0(url, "/.."), params)
 	
-	structure(
-		list(
-			url = url,
-			usr = usr,
-			pwd = pwd,
-			content = res$content
-		),
-		class = "rest_service"
-	)
+	services <- res$content$services
+	services <- services[services$name == name, ]
+	
+	for (i in 1:nrow(services)) {
+		l <- services[i, , drop=TRUE]
+		res <- rest_response(l$url, params)
+		out[[l$type]] <- res$content
+	}
+	
+	structure(out, class = "rest_service")
 }
 
 #' @title Print a Rest Service
@@ -50,7 +56,7 @@ rest_service <- function (url, usr, pwd, params = list()) {
 #'@export
 print.rest_service <- function (x, ...) {
 	cat("<Arc REST ", x$url, ">\n", sep = "")
-	str(x$content)
+	str(x)
 }
 
 
