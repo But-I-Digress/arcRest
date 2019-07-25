@@ -21,7 +21,7 @@ rest_service <- function (url, usr = NULL, pwd = NULL, params = list()) {
 
 	url <- httr::parse_url(url)
 	url$path <- strsplit(url$path, "/", fixed = TRUE)[[1]]
-	url$path <- url$path[1:(which(url$path == "arcgis") + 3)]
+	url$path <- url$path[1:(which(tolower(url$path) == "arcgis") + 3)]
 	name <- url$path[length(url$path)]
 	url$path <- paste(url$path, collapse = "/")
 	url <- httr::build_url(url)
