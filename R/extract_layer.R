@@ -40,9 +40,9 @@ extract_layer <- function (res, layer_no = 0, folder_path = NULL, return_geometr
 	if (!is.null(attachments <- res$content$layers$attachments[[layer_no +  1]])) {              
 		if (missing(folder_path)) {
 			attachments <- aggregate(url ~ parentGlobalId, data = attachments, FUN = list, simplify = FALSE)
-		}  else {
+		} else {
 			attachments$path <- file.path(folder_path, attachments$name)
-			for (i in 1:nrow(attachments)) if (!file.exists(attachments[i, "path"])) rest_download(res$rest, url = attachments[i, "url"], destfile = attachments[i, "path"])
+			if (nrow(attachments) > 0) for (i in 1:nrow(attachments)) if (!file.exists(attachments[i, "path"])) rest_download(res$rest, url = attachments[i, "url"], destfile = attachments[i, "path"])
 			attachments <- aggregate(path ~ parentGlobalId, data = attachments, FUN = list, simplify = FALSE)
 		}
 		features <- merge(features, attachments, by.x = "GlobalID", by.y = "parentGlobalId", all = TRUE)
