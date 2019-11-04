@@ -42,6 +42,7 @@ extract_layer <- function (res, layer_no = 0, folder_path = NULL, return_geometr
 			attachments <- aggregate(url ~ parentGlobalId, data = attachments, FUN = list, simplify = FALSE)
 		} else {
 			attachments$path <- file.path(folder_path, attachments$name)
+			print(str(attachments))
 			if (nrow(attachments) > 0) for (i in 1:nrow(attachments)) if (!file.exists(attachments[i, "path"])) rest_download(res$rest, url = attachments[i, "url"], destfile = attachments[i, "path"])
 			attachments <- aggregate(path ~ parentGlobalId, data = attachments, FUN = list, simplify = FALSE)
 		}
