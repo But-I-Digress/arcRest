@@ -37,12 +37,12 @@ extract_layer <- function (res, layer_no = 0, folder_path = NULL, return_geometr
 	
 	if (return_geometry) if (!is.null(geometry <- res$content$layers$features[[layer_no +  1]]$geometry)) features <- cbind(features, geometry)
 
-	if (!is.null(attachments <- res$content$layers$attachments[[layer_no +  1]])) {              
+	attachments <- res$content$layers$attachments[[layer_no +  1]]
+	if (!is.null(attachments) && length(attachments)) {  
 		if (missing(folder_path)) {
 			attachments <- aggregate(url ~ parentGlobalId, data = attachments, FUN = list, simplify = FALSE)
 		} else {
 			attachments$path <- file.path(folder_path, attachments$name)
-			print(str(attachments))
 			if (nrow(attachments) > 0) for (i in 1:nrow(attachments)) if (!file.exists(attachments[i, "path"])) rest_download(res$rest, url = attachments[i, "url"], destfile = attachments[i, "path"])
 			attachments <- aggregate(path ~ parentGlobalId, data = attachments, FUN = list, simplify = FALSE)
 		}
